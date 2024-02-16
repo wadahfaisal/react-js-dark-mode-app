@@ -1,0 +1,56 @@
+$bgColorDark: #282c35;
+$fontColorDark: #fff;
+$primaryColorDark: #ffa7c4;
+
+$bgColorLight: #fff;
+$fontColorLight: #282c35;
+$primaryColorLight: #d23669;
+
+$themes: (
+  dark: (
+    bg-color: $bgColorDark,
+    font-color: $fontColorDark,
+    primary-color: $primaryColorDark,
+  ),
+  light: (
+    bg-color: $bgColorLight,
+    font-color: $fontColorLight,
+    primary-color: $primaryColorLight,
+  ),
+);
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    // .theme--#{$theme} & {
+    .#{$theme}-theme & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}
+
+// $bg: #282c35;
+
+// .dark-theme {
+//   background: $bg;
+//   color: $white;
+// }
+
+// .light-theme {
+//   background: $backgroundColor;
+//   color: $textColor;
+// }
