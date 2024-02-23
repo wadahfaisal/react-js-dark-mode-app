@@ -3,24 +3,21 @@ import data from "./data";
 import Article from "./Article";
 
 const getStorageTheme = () => {
-  let theme: string | null = "light-theme";
+  let theme: string = "light-theme";
 
   if (localStorage.getItem("theme")) {
-    theme = localStorage.getItem("theme");
+    theme = localStorage.getItem("theme")!;
   }
 
   return theme;
 };
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<string | null>(getStorageTheme());
+  const [theme, setTheme] = useState<string>(getStorageTheme());
 
   useEffect(() => {
-    // document.documentElement.className = theme || "light-theme";
-    // document.body.className = theme || "light-theme";
-
-    localStorage.setItem("theme", theme || "light-theme");
-    console.log(theme);
+    document.documentElement.className = theme;
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -28,7 +25,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className={theme as string}>
+    <main>
       <nav>
         <div className="nav-center">
           <h1>overreacted</h1>
